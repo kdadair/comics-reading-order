@@ -29,4 +29,4 @@ Then, I typically serve that file with simpleHTTPserver:
 
 ```python3 -m http.server 8000```
 
-![RPReplay_Final1677826311](https://user-images.githubusercontent.com/82833387/222652187-e552f765-2c8b-4fce-a12d-53d67e49b5d0.gif)
+![RPReplay_Final1677826311](https://user-images.githubusercontent.com/82833387/222652187-e552f765-2c8b-4fce-a12d-53d67e49b5d0.gif | width=100)
