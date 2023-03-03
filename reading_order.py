@@ -29,7 +29,7 @@ reading_list_content = """
 for issue in issues_list:
 	sleep(1)
 	print(issue)
-	marvel_url = ddg(issue + "site:marvel.com/comics/issue/", max_results=1)[0]['href']
+	marvel_url = ddg(issue + " site:marvel.com/comics/issue/", max_results=1)[0]['href']
 	print(marvel_url)
 
 	marvel_text = requests.get(marvel_url).text
