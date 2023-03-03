@@ -23,7 +23,7 @@ Dark Reign: Fantastic Four #5 (2009)
 Dark Reign: The Cabal #1 (2009)
 ```
 
-Each of these lines ends up being its own duckduckgo search, with a ``` site:marvel.com/comics/issue/```, so the more detail you include about the issue, the more likely you are to find the issue. The script assumes that the first result is right -- it's pretty dumb!
+Each of these lines ends up being its own duckduckgo search, with a ``` site:marvel.com/comics/issue/``` appended, so the more detail you include about the issue, the more likely you are to find the issue. The script assumes that the first result is right -- it's pretty dumb!
 
 Just call from the command line, like so:
 
