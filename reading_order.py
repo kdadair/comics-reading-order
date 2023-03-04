@@ -1,5 +1,6 @@
-import sys, requests
+import sys, requests, re
 from duckduckgo_search import ddg
+from bs4 import BeautifulSoup
 from time import sleep
 
 # grab argument containing path to text file
@@ -16,8 +17,47 @@ issues_text = open(path).read()
 
 issues_list = issues_text.split("\n")
 
-#instantiating top of HTML document
-reading_list_content = """
+def get_mu_url(comic_url, issue_name):
+	response = requests.get(comic_url)
+	soup = BeautifulSoup(response.content, 'html.parser')
+
+	# loop through all <script> tags in the HTML page
+	for script in soup.find_all('script'):
+		script_text = str(script)
+
+		digital_comic_id = ""
+
+		# search for the digital comic id pattern in the script text
+		match = re.search(r'digital_comic_id: "(\d+)"', script_text)
+
+		# if the pattern is found, extract the digital comic id and break out of the loop
+		if match:
+			digital_comic_id = match.group(1)
+			break
+		else:
+			return None
+
+	return f"<a href=https://read.marvel.com/#/book/{digital_comic_id}>{issue_name}</a>"
+
+hyperlink_list = []
+
+for issue in issues_list:
+
+	# sleep every iteration of the loop, because both Marvel and DuckDuckGo will get mad at you for bombarding them
+	sleep(1)
+	print(issue)
+	marvel_url = ddg(f"{issue} site:marvel.com/comics/issue/", max_results=1)[0]['href']
+	print(marvel_url)
+
+	issue_url = get_mu_url(marvel_url)
+
+	# add link to url list
+	hyperlink_list.append(issue_url)
+
+hyperlink_string = '\n'.join(hyperlink_list)
+
+#create html document
+reading_list_content = f"""
 <!DOCTYPE html>
 <html lang="pl">
   <head>
@@ -25,32 +65,8 @@ reading_list_content = """
 	<title>Reading List</title>
   </head>
   <body>
-	<h1>Reading List</h1>\n"""
-
-for issue in issues_list:
-
-	# sleep every iteration of the loop, because both Marvel and DuckDuckGo will get mad at you for bomarding them
-	sleep(1)
-	print(issue)
-	marvel_url = ddg(issue + " site:marvel.com/comics/issue/", max_results=1)[0]['href']
-	print(marvel_url)
-
-	marvel_text = requests.get(marvel_url).text
-
-	# look for the javascript that has the digital comic id, which we use to build the link into Marvel Unlimited
-	start_index = marvel_text.find('digital_comic_id:')
-	substring = marvel_text[start_index:start_index+50]
-
-	# get down to just the id, there's probably a better way of doing this
-	start_num = substring.find('"')
-	end_num = substring.find(',')
-	issue_id = substring[start_num+1:end_num-1]
-
-	# add link to document
-	reading_list_content += '<p><a href="https://read.marvel.com/#/book/' +issue_id + '">' + issue + '</a></p>\n'
-
-# finish html doc
-reading_list_content += """
+	<h1>Reading List</h1>\n
+	{hyperlink_string}
   </body>
 </html>
 """
