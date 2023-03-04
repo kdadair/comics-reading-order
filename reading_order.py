@@ -67,15 +67,66 @@ reading_list_content = f"""
 <!DOCTYPE html>
 <html lang="pl">
   <head>
-	<meta charset="utf-8" />
-	<title>{title}</title>
+    <meta charset="utf-8" />
+    <title>{title}</title>
+    <style>
+      /* Modern layout */
+      body {{
+        font-family: 'Roboto', sans-serif;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+        background-color: #f7f7f7;
+      }}
+      
+      main {{
+        flex: 1;
+        padding: 24px;
+      }}
+      
+      h1 {{
+        margin-top: 0;
+        margin-bottom: 16px;
+        font-size: 36px;
+        font-weight: 700;
+        color: #333333;
+      }}
+      
+      ul {{
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+      }}
+      
+      li {{
+        margin-bottom: 16px;
+      }}
+      
+      a {{
+        color: #1a0dab;
+        text-decoration: none;
+        border-bottom: 1px solid #1a0dab;
+      }}
+      
+      a:hover {{
+        background-color: #f2f2f2;
+        border-bottom: none;
+      }}
+    </style>
   </head>
   <body>
-	<h1>{title}</h1>\n
-	{hyperlink_string}
+    <main>
+      <h1>{title}</h1>
+      <ul>
+        {hyperlink_string}
+      </ul>
+    </main>
   </body>
 </html>
 """
+
 
 filename = "readinglist"
 if len(sys.argv) > 3:
