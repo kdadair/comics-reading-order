@@ -29,7 +29,9 @@ Just call from the command line, like so:
 
 ```python3 reading_order.py path/to/text/file.txt```
 
-Doing so will produce a .html file in the current directory.
+Doing so will produce a .html file in the current directory. It will overwrite the file if one exists in the directory.
+
+Note: it's pretty slow, about a second per issue, because I have a ```sleep(1)``` in there, so as to not get rate-limited by either duckduckgo or Marvel, both of which happened to me in development.
 
 Then, I typically serve that file with simpleHTTPserver:
 
