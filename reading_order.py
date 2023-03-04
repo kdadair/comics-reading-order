@@ -58,22 +58,29 @@ for issue in issues_list:
 
 hyperlink_string = '\n'.join(hyperlink_list)
 
+title = "Reading List"
+if len(sys.argv) > 2:
+	title = sys.argv[2]
+
 #create html document
 reading_list_content = f"""
 <!DOCTYPE html>
 <html lang="pl">
   <head>
 	<meta charset="utf-8" />
-	<title>Reading List</title>
+	<title>{title}</title>
   </head>
   <body>
-	<h1>Reading List</h1>\n
+	<h1>{title}</h1>\n
 	{hyperlink_string}
   </body>
 </html>
 """
 
+filename = "readinglist"
+if len(sys.argv) > 3:
+	filename = sys.argv[3]
 # write to file, overwriting if exists
-f = open("readinglist.html", "w")
+f = open(f"{filename}.html", "w")
 f.write(reading_list_content)
 f.close()
