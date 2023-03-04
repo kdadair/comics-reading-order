@@ -34,10 +34,11 @@ def get_mu_url(comic_url, issue_name):
 		if match:
 			digital_comic_id = match.group(1)
 			break
-		else:
-			return None
-
-	return f"<a href=https://read.marvel.com/#/book/{digital_comic_id}>{issue_name}</a>"
+	
+	if digital_comic_id:
+		return f"<p><a href=https://read.marvel.com/#/book/{digital_comic_id}>{issue_name}</a></p>"
+	else:
+		return None
 
 hyperlink_list = []
 
@@ -49,10 +50,11 @@ for issue in issues_list:
 	marvel_url = ddg(f"{issue} site:marvel.com/comics/issue/", max_results=1)[0]['href']
 	print(marvel_url)
 
-	issue_url = get_mu_url(marvel_url)
+	issue_url = get_mu_url(marvel_url, issue)
 
-	# add link to url list
-	hyperlink_list.append(issue_url)
+	if issue_url:
+		# add link to url list
+		hyperlink_list.append(issue_url)
 
 hyperlink_string = '\n'.join(hyperlink_list)
 
