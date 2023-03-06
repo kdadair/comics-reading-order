@@ -1,10 +1,17 @@
-import sys, requests, re
+import os, requests, re, argparse
 from duckduckgo_search import ddg
 from bs4 import BeautifulSoup
 from time import sleep
 
-# grab argument containing path to text file
-path = sys.argv[1]
+# grab argument containing arguments
+parser = argparse.ArgumentParser()
+
+parser.add_argument('--issues_path', type=str, help='Path to text file containing issues')
+parser.add_argument('--doc_title', type=str, nargs='?', default='Reading List', help='Desired title of HTML page. Optional.')
+parser.add_argument('--file_name', type=str, nargs='?', default='readinglist', help='Desired name of file. Optional.')
+args = parser.parse_args()
+
+path = os.path.expanduser(args.issues_path)
 issues_text = open(path).read()
 
 # left this here for debugging and as a hint for how to format the text file
@@ -58,9 +65,7 @@ for issue in issues_list:
 
 hyperlink_string = '\n'.join(hyperlink_list)
 
-title = "Reading List"
-if len(sys.argv) > 2:
-	title = sys.argv[2]
+title = args.doc_title
 
 #create html document
 reading_list_content = f"""
@@ -128,9 +133,8 @@ reading_list_content = f"""
 """
 
 
-filename = "readinglist"
-if len(sys.argv) > 3:
-	filename = sys.argv[3]
+filename = args.file_name
+
 # write to file, overwriting if exists
 f = open(f"{filename}.html", "w")
 f.write(reading_list_content)

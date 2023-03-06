@@ -27,15 +27,15 @@ Each of these lines ends up being its own duckduckgo search, with a ``` site:mar
 
 Just call from the command line, like so:
 
-```python3 reading_order.py absolute/path/to/text/file.txt```
+```python3 reading_order.py --file_path=absolute/path/to/text/file.txt```
 
 Doing so will produce a .html file in the current directory. It will overwrite the file if one exists in the directory.
 
 Note: it's pretty slow, about a second per issue, because I have a ```sleep(1)``` in there, so as to not get rate-limited by either duckduckgo or Marvel, both of which happened to me in development.
 
-Additionally and optionally, you can supply a document title as your second argument, and a filename as your third argument, like so:
+Additionally and optionally, you can supply the title of the HTML page the script produces, and a filename, like so:
 
-```python3 ~/Code/comics-reading-order/reading_order.py absolute/path/to/text/file.txt "Hickman's First Big Run" hickmanreadinglist```
+```python3 ~/Code/comics-reading-order/reading_order.py --file_path=absolute/path/to/text/file.txt --doc_title="Hickman's First Big Run" --file_name=hickmanreadinglist```
 
 Then, I typically serve that file with simpleHTTPserver:
 
