@@ -5,7 +5,7 @@ First, you probably need to install [duckduckgo_search, credit to deedy5:](https
 
 ```pip install -U duckduckgo_search```
 
-Then, create a text file of the issues you want links for, in a format something like this, with series name, issue number, and year:
+Then, create a text file of the issues you want links for, in this format, with series name, issue number, and year:
 
 ```
 Dark Reign: New Nation #1 (2009)
@@ -23,7 +23,7 @@ Dark Reign: Fantastic Four #5 (2009)
 Dark Reign: The Cabal #1 (2009)
 ```
 
-Each of these lines ends up being its own duckduckgo search, with a ``` site:marvel.com/comics/issue/``` appended, so the more detail you include about the issue, the more likely you are to find the issue. The script assumes that the first result is right -- it's pretty dumb!
+Each of these lines ends up being its own duckduckgo search, with a ``` site:marvel.com/comics/issue/``` appended. The script checks the first 10 results for a URL that ends in the issue number you provide, and if it can't find one, it just uses the first result.
 
 Just call from the command line, like so:
 
