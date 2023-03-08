@@ -75,7 +75,7 @@ def get_mu_hyperlink(issue_name):
 		if digital_comic_id:
 			return f"<p><a href=https://read.marvel.com/#/book/{digital_comic_id}>{issue_name}</a></p>"
 		else:
-			return f"<p><a>{issue_name} (URL not found) </a></p>"
+			return f"<p>{issue_name} (URL not found)</p>"
 	else:
 		return '<p class="empty"></p>'
 
