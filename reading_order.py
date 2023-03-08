@@ -39,13 +39,17 @@ def get_mu_hyperlink(issue_name):
 		
 		ddg_results = ddg(search_string, max_results=10)
 
+		# this stuff now breaks if you don't use the blessed format of BOOK #NUMBER (YEAR)
 		issue_no = issue_name.split(" ")[-2][1:]
 		year = issue_name.split(" ")[-1][1:-1]
+
+		# now we assume failure if the below "algorithm" fails
 		comic_url = None
 
+		# marvel gets funky with issue zero, so hope for the best with the first result
 		if issue_no == "0":
 			comic_url = ddg_results[0]['href']
-		else:
+		else: # loop over the results and look for one with matching year and issue number
 			for result in ddg_results:
 				if args.verbose:
 					print(result['href'])
