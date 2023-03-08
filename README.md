@@ -1,3 +1,4 @@
+
 # comics-reading-order
 A mediocre-yet-functional way to turn a list of Marvel issues into an HTML document of links to Marvel Unlimited, decently formatted.
 
@@ -33,9 +34,18 @@ Doing so will produce a .html file in the current directory. It will overwrite t
 
 Note: it's pretty slow, about a second per issue, because I have a ```sleep(1)``` in there, so as to not get rate-limited by either duckduckgo or Marvel, both of which happened to me in development.
 
-Additionally and optionally, you can supply the title of the HTML page the script produces, and a filename, like so:
+Here are all the arguments you can provide, along with their defaults and what they do:
 
-```python3 ~/Code/comics-reading-order/reading_order.py --file_path=absolute/path/to/text/file.txt --doc_title="Hickman's First Big Run" --file_name=hickmanreadinglist```
+|argument|required?|default value|summary
+|--|--|--|--|
+|`--file_path`|yes|none|path to text file containing summary
+|`--doc_title`|no|Reading List|title of HTML document as rendered
+|`--file_name`|no|readinglist|name of html document created (don't include `.html`)
+|`--styling`|no|True|whether to apply basic HTML styling to the document
+
+Example:
+
+```python3 ~/Code/comics-reading-order/reading_order.py --file_path=absolute/path/to/text/file.txt --doc_title="Hickman's First Big Run" --file_name=hickmanreadinglist --styling=False```
 
 Then, I typically serve that file with simpleHTTPserver:
 
