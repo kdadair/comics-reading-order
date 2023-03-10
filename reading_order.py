@@ -40,6 +40,7 @@ def get_mu_hyperlink(issue_name):
 		ddg_results = ddg(search_string, max_results=10)
 
 		# this stuff now breaks if you don't use the blessed format of BOOK #NUMBER (YEAR)
+		book_words = [w.lower().replace('.', '') for w in issue_name.split(" ")[:-2]]
 		issue_no = issue_name.split(" ")[-2][1:]
 		year = issue_name.split(" ")[-1][1:-1]
 
@@ -53,8 +54,18 @@ def get_mu_hyperlink(issue_name):
 			for result in ddg_results:
 				if args.verbose:
 					print(result['href'])
-				if issue_no == result['href'].split("_")[-1] and year == result['href'].split("_")[-2]:
-					comic_url = result['href']
+				
+				# get last bit of URL, and get the issue, year, and title out of it
+				mu_slug = result['href'].split("/")[-1]
+				mu_book_words = mu_slug.split('_')[:-2]
+				mu_issue_no = mu_slug.split('_')[-1]
+				mu_year = mu_slug.split('_')[-2]
+
+				if issue_no == mu_issue_no and year == mu_year:
+					for book_word in book_words:
+						if book_word in mu_book_words:
+							comic_url = result['href']
+							break
 					break
 		
 		digital_comic_id = None
@@ -77,11 +88,11 @@ def get_mu_hyperlink(issue_name):
 					break
 		
 		if digital_comic_id:
-			return f"<p><a href=https://read.marvel.com/#/book/{digital_comic_id}>{issue_name}</a></p>"
+			return f"<a href=https://read.marvel.com/#/book/{digital_comic_id}>{issue_name}</a><br>"
 		else:
-			return f"<p>{issue_name} (URL not found)</p>"
+			return f"{issue_name} (URL not found)<br>"
 	else:
-		return '<p class="empty"></p>'
+		return '</p>\n<p>'
 
 hyperlink_list = []
 
@@ -111,7 +122,7 @@ if not args.no_styling:
 	
 	main {
 		flex: 1;
-		padding: 24px;
+		padding: 36px;
 	}
 	
 	h1 {
@@ -122,32 +133,23 @@ if not args.no_styling:
 		color: #333333;
 	}
 	
-	ul {
-		list-style-type: none;
-		margin: 0;
-		padding: 0;
-	}
-	
-	li {
-		margin-bottom: 16px;
-	}
-
-	p.empty {
-  		height: 16px;
-	}
-
-	
 	a {
 		color: #1a0dab;
 		text-decoration: none;
 		border-bottom: 1px solid #1a0dab;
+	}
+
+	br {
+		display: block;
+		margin: 5px 0;
+		content: " ";
 	}
 	
 	a:hover {
 		background-color: #f2f2f2;
 		border-bottom: none;
 	}
-	</style>"""
+</style>"""
 
 
 title = args.doc_title
@@ -164,7 +166,9 @@ reading_list_content = f"""
   <body>
 	<main>
 	  <h1>{title}</h1>
+	  	<p>
 		{hyperlink_string}
+		</p>
 	</main>
   </body>
 </html>
